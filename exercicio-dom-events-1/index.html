@@ -31,7 +31,7 @@
     <main role="main">
         <div class="container">
 
-            <form class="form-inline mb-5 mt-5">
+            <form class="form-inline mb-5 mt-5 form-acao">
                 <div class="form-group">
                     <label for="acaoInput">Ação</label>
                     <input type="text" class="form-control ml-3" id="acaoInput">
@@ -40,13 +40,12 @@
                     <label for="cotacaoInput">Cotação</label>
                     <input type="text" class="form-control ml-3" id="cotacaoInput">
                 </div>
-                <button type="submit" class="btn btn-primary ml-3">Cadastrar</button>
+                <button type="button" class="btn btn-primary ml-3" id="btn-cadastrar">Cadastrar</button>
             </form>
 
-            <table class="table">
+            <table class="table tabela-acoes">
                 <thead>
                     <tr>
-                        <th scope="col">#</th>
                         <th scope="col">Ação</th>
                         <th scope="col">Cotação</th>
                         <th scope="col">Status</th>
@@ -54,37 +53,31 @@
                 </thead>
                 <tbody>
                     <tr class="acao">
-                        <th scope="row">1</th>
                         <td class="acao-nome">Petrobrás</td>
                         <td class="acao-cotacao">27.84</td>
                         <td class="acao-status"><span class='badge'>---</span></td>
                     </tr>
                     <tr class="acao">
-                        <th scope="row">2</th>
                         <td class="acao-nome">Banco do Brasil</td>
                         <td class="acao-cotacao">42.80</td>
                         <td class="acao-status"><span class='badge'>---</span></td>
                     </tr>
                     <tr class="acao">
-                        <th scope="row">3</th>
                         <td class="acao-nome">Itaú</td>
                         <td class="acao-cotacao">49.20</td>
                         <td class="acao-status"><span class='badge'>---</span></td>
                     </tr>
                     <tr class="acao">
-                        <th scope="row">3</th>
                         <td class="acao-nome">Vale</td>
                         <td class="acao-cotacao">55.60</td>
                         <td class="acao-status"><span class='badge'>---</span></td>
                     </tr>
                     <tr class="acao">
-                        <th scope="row">3</th>
                         <td class="acao-nome">P.ACUCAR-CBDPN N1</td>
                         <td class="acao-cotacao">77.98</td>
                         <td class="acao-status"><span class='badge'>---</span></td>
                     </tr>
                     <tr class="acao">
-                        <th scope="row">4</th>
                         <td class="acao-nome">Empresa de Feijão</td>
                         <td class="acao-cotacao">50</td>
                         <td class="acao-status"><span class='badge'>---</span></td>
