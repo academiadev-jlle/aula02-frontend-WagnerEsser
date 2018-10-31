@@ -1,58 +1,72 @@
 document.addEventListener('DOMContentLoaded', onLoadDOM);
 
 function onLoadDOM() {
-    atualizaStatus();
+    buscaPokemons();
 
-    document.querySelector('#btn-cadastrar').addEventListener('click', btnCadastrarClick);
+    document.querySelector('#btn-buscar').addEventListener('click', btnBuscarClick);
 }
 
-function btnCadastrarClick() {
-    const form = document.querySelector('.form-acao');
-    const acao = form.acaoInput.value;
-    const cotacao = form.cotacaoInput.value;
+function btnBuscarClick() {
+    const form = document.querySelector('.search-form');
+    const id = form.searchInput.value;
+    document.querySelector('.tabela-pokemons tbody').textContent = "";
 
-    const row = document.createElement('tr');
-    row.classList.add("acao");
-    
-    const infoAcao = document.createElement('td');
-    infoAcao.classList.add("acao-nome")
-    
-    const infoCotacao = document.createElement('td');
-    infoCotacao.classList.add("acao-cotacao")
-    
-    const tdStatus = document.createElement('td');
-    tdStatus.classList.add("acao-status");
-
-    const spanStatus = document.createElement('span');
-    spanStatus.classList.add("badge");
-    spanStatus.textContent = "---";
-
-    infoAcao.textContent = acao;
-    infoCotacao.textContent = cotacao;
-
-    row.appendChild(infoAcao);
-    row.appendChild(infoCotacao);
-    tdStatus.appendChild(spanStatus);
-    row.appendChild(tdStatus);
-
-    const tabela = document.querySelector('.tabela-acoes tbody');
-    tabela.insertBefore(row, tabela.childNodes[1]);
-    
-    atualizaStatus();
+    buscaPokemons(id);
 }
 
-function atualizaStatus() {
-    const acoes = document.querySelectorAll('.acao');
+function buscaPokemons(id=null, urlDefault='https://pokeapi.co/api/v2/pokemon-species/') {
+    // if(!urlDefault){
+    const apiURL = (id ? `https://pokeapi.co/api/v2/pokemon-species/${id}/` : urlDefault);
+    // }else{
+    //     const apiURL = urlDefault;
+    // }
+    
+    console.log(apiURL);
 
-    acoes.forEach(acao => {
-        const cotacao = parseInt(acao.querySelector('.acao-cotacao').textContent);
-        acaoStatusTd = acao.querySelector('.acao-status').querySelector('.badge');
-
-        acaoStatusTd.classList.add(cotacao > 50 ? 'badge-danger' : 'badge-success');
-        acaoStatusTd.textContent = (cotacao > 50 ? 'Vender' : 'Comprar');
-        if(cotacao == 50){
-            acaoStatusTd.classList.add('badge-info');
-            acaoStatusTd.textContent = 'Manter';
+    const xmlHttp = new XMLHttpRequest();
+    xmlHttp.open('GET', apiURL, true);
+    xmlHttp.onreadystatechange = function() {
+        if (this.readyState === 4) {
+            const result = JSON.parse(this.responseText);
+            if(id){
+                adicionaPokemon(result);
+            }else{
+                result.results.slice(0, 10).forEach(poke => buscaPokemons(null, poke.url));
+            }
         }
-    });
+    }
+    xmlHttp.send();
+}
+
+// function buscaPokemon(poke) {
+//     const apiURL = poke.url;
+//     const xmlHttp = new XMLHttpRequest();
+//     xmlHttp.open('GET', apiURL, true);
+//     xmlHttp.onreadystatechange = function() {
+//         if (this.readyState === 4) {
+//             const result = JSON.parse(this.responseText);
+//             adicionaPokemon(result);
+//         }
+//     }
+//     xmlHttp.send();
+// }
+
+function adicionaPokemon(poke){
+    const tr = document.createElement('tr');
+    const td_nome = document.createElement('td');
+    const td_base_happiness = document.createElement('td');
+    const td_cor = document.createElement('td');
+    const td_shape = document.createElement('td');
+
+    td_nome.textContent = poke.habitat.name;
+    td_base_happiness.textContent = poke.base_happiness;
+    td_cor.textContent = poke.color.name;
+    td_shape.textContent = poke.shape.name;
+
+    tr.appendChild(td_nome);
+    tr.appendChild(td_base_happiness);
+    tr.appendChild(td_cor);
+    tr.appendChild(td_shape);
+
+    document.querySelector('.tabela-pokemons tbody').appendChild(tr);
 }
