@@ -10,46 +10,25 @@ function btnBuscarClick() {
     const form = document.querySelector('.search-form');
     const id = form.searchInput.value;
     document.querySelector('.tabela-pokemons tbody').textContent = "";
-
     buscaPokemons(id);
 }
 
 function buscaPokemons(id=null, urlDefault='https://pokeapi.co/api/v2/pokemon-species/') {
-    // if(!urlDefault){
     const apiURL = (id ? `https://pokeapi.co/api/v2/pokemon-species/${id}/` : urlDefault);
-    // }else{
-    //     const apiURL = urlDefault;
-    // }
-    
-    console.log(apiURL);
-
     const xmlHttp = new XMLHttpRequest();
     xmlHttp.open('GET', apiURL, true);
     xmlHttp.onreadystatechange = function() {
         if (this.readyState === 4) {
             const result = JSON.parse(this.responseText);
-            if(id){
+            if (id || urlDefault != 'https://pokeapi.co/api/v2/pokemon-species/') {
                 adicionaPokemon(result);
             }else{
-                result.results.slice(0, 10).forEach(poke => buscaPokemons(null, poke.url));
+                result.results.slice(0,10).forEach(poke => buscaPokemons(null, poke.url));
             }
         }
     }
     xmlHttp.send();
 }
-
-// function buscaPokemon(poke) {
-//     const apiURL = poke.url;
-//     const xmlHttp = new XMLHttpRequest();
-//     xmlHttp.open('GET', apiURL, true);
-//     xmlHttp.onreadystatechange = function() {
-//         if (this.readyState === 4) {
-//             const result = JSON.parse(this.responseText);
-//             adicionaPokemon(result);
-//         }
-//     }
-//     xmlHttp.send();
-// }
 
 function adicionaPokemon(poke){
     const tr = document.createElement('tr');
@@ -58,7 +37,7 @@ function adicionaPokemon(poke){
     const td_cor = document.createElement('td');
     const td_shape = document.createElement('td');
 
-    td_nome.textContent = poke.habitat.name;
+    td_nome.textContent = poke.name;
     td_base_happiness.textContent = poke.base_happiness;
     td_cor.textContent = poke.color.name;
     td_shape.textContent = poke.shape.name;
